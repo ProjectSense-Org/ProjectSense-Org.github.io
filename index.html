@@ -15,20 +15,15 @@
             justify-content: center;
             height: 100vh;
             text-align: center;
-        }
-
-        .container {
-            max-width: 400px;
-            width: 100%;
+            color: #000; /* Black text */
+            overflow: hidden; /* Prevent scrollbars */
         }
 
         h1 {
-            color: #000; /* Black text */
             margin-bottom: 20px;
         }
 
         p {
-            color: #6c757d; /* Gray text */
             margin-bottom: 40px;
         }
 
@@ -37,43 +32,93 @@
             font-size: 24px;
             margin-bottom: 40px;
         }
+
+        /* Cat animation */
+        .cat-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; /* Disable pointer events for the cat */
+        }
+
+        .cat {
+            font-size: 24px;
+            cursor: pointer;
+            animation: catMove 4s infinite;
+            transform-origin: center;
+            position: absolute;
+        }
+
+        @keyframes catMove {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            50% { transform: translateY(-20px) translateX(20px) rotate(180deg); }
+        }
+
+        /* Adjust cat speed when cursor is near */
+        .cat.active {
+            animation-duration: 2s;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div>
         <h1>Coming Soon</h1>
         <p>We're working hard to bring you something special. Stay tuned!</p>
         <div class="countdown" id="countdown"></div>
     </div>
 
+    <!-- Container for cat -->
+    <div class="cat-container" id="catContainer">
+        <div class="cat" id="cat">🐱</div>
+    </div>
+
     <script>
-        // Set the date we're counting down to (2 months from now)
-        const countDownDate = new Date().setMonth(new Date().getMonth() + 2).getTime();
+        const countDownDate = new Date();
+        countDownDate.setMonth(countDownDate.getMonth() + 2);
 
-        // Update the countdown every 1 second
         const x = setInterval(function() {
-            // Get the current date and time
             const now = new Date().getTime();
-
-            // Calculate the remaining time
             const distance = countDownDate - now;
 
-            // Calculate days, hours, minutes, and seconds
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Display the countdown
             document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
-            // If the countdown is over, display a message
             if (distance < 0) {
                 clearInterval(x);
                 document.getElementById("countdown").innerHTML = "Website is now live!";
             }
         }, 1000);
+
+        // Cat animation
+        const cat = document.querySelector('.cat');
+        const catContainer = document.querySelector('.cat-container');
+        
+        document.addEventListener("mousemove", function(event) {
+            const catRect = cat.getBoundingClientRect();
+            const distanceToCat = Math.sqrt(
+                Math.pow(event.clientX - (catRect.left + catRect.width / 2), 2) +
+                Math.pow(event.clientY - (catRect.top + catRect.height / 2), 2)
+            );
+
+            if (distanceToCat < 25) {
+                cat.classList.add('active');
+            } else {
+                cat.classList.remove('active');
+            }
+
+            const randomX = Math.random() * (catContainer.clientWidth - cat.clientWidth);
+            const randomY = Math.random() * (catContainer.clientHeight - cat.clientHeight);
+
+            cat.style.left = randomX + "px";
+            cat.style.top = randomY + "px";
+        });
     </script>
 
 </body>
