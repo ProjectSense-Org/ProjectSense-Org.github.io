@@ -17,6 +17,7 @@
             height: 100vh;
             text-align: center;
             overflow: hidden; /* Prevent scrollbars */
+            position: relative; /* Set position to relative for absolute positioning of LinkedIn icon */
         }
 
         .ascii-art {
@@ -30,6 +31,21 @@
         .countdown {
             font-size: 24px;
             margin-top: 20px;
+        }
+
+        .linkedin-icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .linkedin-icon img {
+            width: 15px;
+            height: 15px;
+        }
+
+        .separator {
+            margin-left: 5px; /* Adjust the space between the icon and text */
         }
 
         @keyframes typing {
@@ -54,6 +70,13 @@
 | _|      | _| `._____| \______/   \______/  |_______| \______|    |__|    |_______/    |_______||__| \__| |_______/    |_______|
         </pre>
         <div class="countdown" id="countdown"></div>
+        <div class="linkedin-icon">
+            <a href="https://www.linkedin.com/in/mohideen38/" target="_blank">
+                <!-- Replace "path_to_downloaded_linkedin_icon.svg" with the actual path or URL to your downloaded LinkedIn icon -->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" alt="LinkedIn">
+            </a>
+            Mohideen
+        </div>
     </div>
 
     <script>
